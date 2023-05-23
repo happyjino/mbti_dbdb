@@ -1,0 +1,73 @@
+/* EmailLogin */
+
+.register-member {
+  padding: 30px;
+  background-color: #b79e84;
+}
+
+.register-member .login-img-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+  font-size: 30px;
+  color: white;
+}
+
+.register-member .input-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 5px 0px;
+}
+
+.register-member .input-box .nickname-check-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 0px;
+  margin-right: 10px;
+
+  width: 150px;
+  background-color: #665645;
+  color: #f5f3f2;
+  cursor: pointer;
+}
+
+.register-member .input-box .check-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: green;
+  background-color: white;
+  border: 2px solid #665645;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+}
+
+.register-member .input-box .bad-check-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  background-color: white;
+  border: 2px solid #665645;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+}
+
+.register-member .check-message {
+  margin-left: 15px;
+  margin-bottom: 10px;
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+

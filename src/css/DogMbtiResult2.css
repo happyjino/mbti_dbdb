@@ -1,0 +1,242 @@
+.result-box {
+    min-height: 100vh;
+    background-color: #f5f3f2;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    margin-left: 20px;
+}
+.result-box > p {
+    font-size: 25px;
+    font-weight: 600;
+    color: #665645;
+    margin: 20px;
+}
+.result-box .result-top {
+    width: 100%;
+    height: auto;
+    background-color: #B79E84;
+    padding: 25px 2vw 0;
+    box-sizing: border-box;
+}
+.result-box .result-top .result-word {
+    font-size: 23px;
+    color: #665645;
+    margin-bottom: 20px;
+}
+.result-box .result-top .result-container {
+    display: flex;
+    justify-content: space-around;
+}
+.result-box .result-top .result-container>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+}
+/* 타입 이미지 및 설명 박스 */
+.result-box .result-top .result-container  .result-left {
+    color: #ffffff;
+}
+.result-box .result-top .result-container  .result-left h3 {
+    font-size: 40px;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px #2e2a27;
+    margin-bottom: 15px;
+}
+.result-box .result-top .result-container  .result-left p {
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.result-box .result-top .result-container .result-left .detail-img {
+    width: 100%;
+    margin-bottom: 25px;
+}
+.result-box .result-top .result-container .result-left .detail-img img {
+    width: 70%;
+    margin: auto;
+    display: block;
+}
+/* 프로그래스 바 박스 */
+.result-box .result-top .result-container .result-right {
+    background-color: #f5f3f2;
+    border-radius: 30px 30px 0 0;
+    padding: 10px;
+    box-sizing: border-box;
+    padding-bottom: 0;
+}
+.result-box .result-top .result-container .result-right ul {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+}
+.result-box .result-top .result-container .result-right ul li {
+    height: calc(100% / 4);
+}
+.result-box .result-top .result-container .result-right ul li p {
+    text-align: center;
+    font-size: 1.4vh;
+    font-weight: 600;
+    color: #665645;
+}
+.result-box .result-top .result-container .result-right ul li .progress {
+    display: block;
+    width: 100%;
+    height: 7px;
+    margin: 10px 0 5px 0;
+    box-sizing: border-box;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+}
+.result-box .result-top .result-container .result-right ul li .progress .progress-bar{
+    height: 100%;
+    border-radius: 5px;
+}
+.result-box .result-top .result-container .result-right ul li .percent {
+    font-size: 1.2vh;
+}
+.result-box .result-top .result-container .result-right ul li:first-child .percent {
+    color: #5C4CFF;
+}
+.result-box .result-top .result-container .result-right ul li:nth-child(2) .percent {
+    color: #0A9A4A;
+}
+.result-box .result-top .result-container .result-right ul li:nth-child(3) .percent {
+    color: #FB7237;
+}
+.result-box .result-top .result-container .result-right ul li:last-child .percent {
+    color: #5186F3;
+}
+.result-box .result-top .result-container .result-right ul li:nth-child(2n-1) .percent {
+    text-align: left;
+}
+.result-box .result-top .result-container .result-right ul li:nth-child(2n) .percent {
+    text-align: right;
+}
+.result-box .result-top .result-container .result-right ul li:nth-child(2n) .progress-bar {
+    float: right;
+}
+
+.result-box .result-detail {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+.result-box .result-detail>div {
+    width: 100%;
+}
+.result-box .result-detail .detail-top {
+    text-align: center;
+    color:#665645;
+}
+.result-box .result-detail .detail-top>* {
+    margin-bottom: 20px;
+}
+.result-box .result-detail .detail-top h4 {
+    font-size: 40px;
+    font-weight: bold;  
+}
+.result-box .result-detail .detail-content {
+    text-align: center;
+    line-height: 24px;
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+.result-box .mbti-all-explanation {
+    margin-bottom: 35px;
+    box-sizing: border-box;
+}
+.result-box .mbti-all-explanation button {
+    width: 100%;
+    text-align: right;
+    display: block;
+    font-size: 16px;
+    padding: 25px;
+    padding-right: 20%;
+    border:none;
+    background: none;
+    position: relative;
+    cursor: pointer;
+}
+.result-box .mbti-all-explanation button::after {
+    content: "→";
+    display: block;
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    font-size: 30px;
+    line-height: 42px;
+    text-align: center;
+    background-color: #212020;
+    color: #fff;
+    border-radius: 50px;
+    right: 5%;
+    top: 9px;
+    box-shadow: 3px 3px 5px rgb(0 0 0 / 70%);
+}
+.result-box .mbit-btn-group {
+    padding: 0 25px;
+}
+.result-box .mbit-btn-group ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.result-box .mbit-btn-group ul li {
+    width: 48%;
+    border-radius: 20px;
+    background-color: #B79E84;
+    box-shadow: 2px 2px 5px rgb(0 0 0 / 50%);
+}
+.result-box .mbit-btn-group ul li button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    height: 60px;
+    border:none;
+    background: none;
+    box-sizing: border-box;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.result-box .share-box {
+    padding: 50px 25px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: stretch;
+    position: relative;
+}
+.result-box .share-box span {
+    position: absolute;
+    font-size: 30px;
+    display: block;
+    left: 40px;
+    top: calc(50% - 15px);
+}
+.result-box .share-box input {
+    height: 40px;
+    border: 3px solid #665645;
+    width: 65%;
+    font-size: 18px;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+.result-box .share-box button {
+    width: 20%;
+    background-color: #665645;
+    color: #ffffff;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+}
+.result-box .share-box input:focus {outline: none;}
+.result-box .share-box button:focus {outline: none;border: none;}

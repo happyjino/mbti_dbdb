@@ -1,0 +1,91 @@
+/* QuestionBox */
+.question-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+
+  font-size: 10px;
+  font-weight: bold;
+  color: #665645;
+  opacity: 0.3;
+}
+
+/* question-radio */
+.question .check-container {
+  display: flex;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.question .check-container input {
+  display: none;
+}
+
+.question .check-circle {
+  border: 1px solid #665645;
+  border-radius: 50%;
+  margin: 0px 10px;
+  margin-top: auto;
+}
+
+/* check size */
+.big {
+  height: 50px;
+  width: 50px;
+}
+.middle {
+  height: 35px;
+  width: 35px;
+}
+.small {
+  height: 25px;
+  width: 25px;
+}
+
+/* checked background */
+.question .check-container input:checked ~ .check-circle {
+  background-color: #665645;
+  background-image: url("../../public/assets/check_icon.png");
+  background-repeat: no-repeat;
+}
+.check-container input:checked ~ .big {
+  background-position-x: 5px;
+  background-position-y: 5px;
+  background-size: 40px;
+}
+.check-container input:checked ~ .middle {
+  background-position-x: 3px;
+  background-position-y: 3px;
+  background-size: 30px;
+}
+.check-container input:checked ~ .small {
+  background-position-x: 3px;
+  background-position-y: 3px;
+  background-size: 20px;
+}
+.question .check-container:hover input:enabled ~ .check-circle {
+  background-color: #665645;
+}
+
+/* check-text */
+.question-box .label-for-check {
+  display: flex;
+  width: 80%;
+}
+
+.question-box .label-for-check .left-child {
+  display: flex;
+  justify-content: flex-start;
+  width: 50%;
+  margin-left: 4px;
+  text-align: center;
+}
+
+.question-box .label-for-check .right-child {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+  margin-right: 20px;
+  text-align: center;
+}

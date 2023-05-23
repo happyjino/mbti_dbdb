@@ -1,0 +1,24 @@
+.top-nav button {
+    cursor: pointer;
+}
+.top-nav button:first-child {
+    width: 10%;
+}
+.top-nav .nav-logo {
+    width: 80%;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.top-nav button:nth-child(3) {
+    width: 10%;
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+.top-nav button:last-child {
+    width: 10%;
+}

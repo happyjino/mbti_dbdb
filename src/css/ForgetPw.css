@@ -1,0 +1,40 @@
+/* EmailLogin */
+
+.forget-pw {
+  padding: 50px;
+  background-color: #b79e84;
+}
+
+.forget-pw .logo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 50px;
+
+  font-size: 30px;
+  color: white;
+}
+
+.forget-pw .input-box {
+  display: flex;
+  padding: 5px 0px;
+  width: 100%;
+}
+
+.forget-pw .btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.forget {
+  cursor: pointer;
+  border: none;
+  background-color: #b79e84;
+  color: white;
+
+  font-size: 15px;
+  margin: 10px;
+}

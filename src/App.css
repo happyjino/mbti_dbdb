@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200");
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+body {
+  background-color: #f6f6f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter', cursive;
+  min-height: 100vh;
+  margin: 0px;
+}
+
+/* media query */
+
+@media (min-width: 486px) {
+  .App {
+    width: 476px;
+  }
+}
+
+@media (max-width: 486px) {
+  .App {
+    width: 90vw;
+  }
+}
+
+#root {
+  background-color: #b79e84;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  min-height: 100vh;
+}
+
+.App {
+  min-height: 100vh;
+}

@@ -1,0 +1,39 @@
+/* MyButton */
+
+.button {
+  cursor: pointer;
+  border: none;
+  border-radius: 15px;
+  width: 100%;
+
+  background-color: #2e2a27;
+  box-shadow: 3px 4px 3px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+
+  padding: 10px 20px;
+  margin: 10px 5px;
+
+  font-size: 25px;
+  font-family: "Inter";
+  font-weight: 200;
+
+  white-space: nowrap;
+}
+
+.arrow-btn {
+  color: white;
+  display: flex;
+}
+
+.btn-text-left {
+  display: flex;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.btn-text-right {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+  align-items: center;
+}

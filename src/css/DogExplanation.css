@@ -1,0 +1,61 @@
+.result-box .explain-mbti {
+    padding: 25px;
+    margin-bottom: 30px;
+}
+.result-box .explain-mbti-detail-box {
+
+}
+.result-box .explain-mbti-detail-box img{
+    width: 80%;
+    margin: auto;
+    display: block;
+    margin-bottom: 20px;
+}
+.result-box .explain-mbti-detail-box:first-child {
+
+}
+.result-box .explain-mbti-detail-box:nth-child(2) {
+
+}
+.result-box .explain-mbti-detail-box .explain-mbti-detail {
+    padding: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.result-box .explain-mbti-detail-box .explain-mbti-detail h4 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.result-box .explain-mbti-detail-box .explain-mbti-detail p {
+    padding: 5%;
+}       
+.result-box .explain-back-btn {
+    padding: 40px 25px;
+}
+.result-box .explain-back-btn button {
+    background: none;
+    border:none;
+    display: block;
+    text-indent: -9999px;
+    position: relative;
+}
+.result-box .explain-back-btn button::after {
+    content: "←";
+    display: block;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    font-size: 30px;
+    line-height: 42px;
+    text-align: center;
+    background-color: #212020;
+    color: #fff;
+    left: 5%;
+    top: -35px;
+    text-indent: 0;
+    box-shadow: 3px 3px 5px rgb(0 0 0 / 70%);
+    cursor: pointer;
+}

@@ -1,0 +1,48 @@
+/* API Wrapper */
+
+.api-login {
+  background-color: #665645;
+  padding: 50px;
+  border-bottom-left-radius: 50px;
+  border-bottom-right-radius: 50px;
+  min-height: 100vh;
+}
+
+.api-login .login-img-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+
+  margin-bottom: 20px;
+
+  font-size: 30px;
+  color: white;
+}
+
+.api-login .api-btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px;
+}
+
+.api-login .api-button {
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+
+  background-color: #ffffff;
+  color: black;
+
+  padding: 8px 0px;
+  margin: 8px;
+
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.api-login .btn-wrapper {
+  display: flex;
+}
