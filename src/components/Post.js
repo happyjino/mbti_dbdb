@@ -9,7 +9,7 @@ const Post = ({ postData, user, onChange }) => {
   const [contentEdit, setContentEdit] = useState(false);
   const [content, setContent] = useState(postData.content);
   const navigate = useNavigate();
-  const domain = "/api"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
 
   const clickLike = async () => {
     const postId = postData.postId;

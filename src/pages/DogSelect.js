@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import TopNavigation from '../components/TopNavigation';
 import { FaCheck } from 'react-icons/fa'
-import { PetListContext } from '../App';
+import { PetContext } from '../App';
 
 const DogBoast = () => {
 
 	const navigate = useNavigate();
-  const { petList } = useContext(PetListContext);
+  const { petList } = useContext(PetContext);
 
 	// 강아지 정보 있는지 확인
 	useEffect(() => {
@@ -26,8 +26,8 @@ const DogBoast = () => {
 
 	const [clickedPet, setClickedPet] = useState("");
 
-	const handleClick = (petName) => {
-    setClickedPet(petName);
+	const handleClick = (petId) => {
+    setClickedPet(petId);
   };
   
   const handleSelect = () => {
@@ -51,14 +51,14 @@ const DogBoast = () => {
         </p>
         <ul className='boast-list'>
           {dogInfoList.map((item) => (
-            <li className="dog-slide" key={item.idx} onClick={() => handleClick(item.name)}>
+            <li className="dog-slide" key={item.idx} onClick={() => handleClick(item.idx)}>
               <img
-                style={{ filter: clickedPet === item.name ? "brightness(0.3)" : "brightness(1)" }}
-                src={item.src} alt={item.name}
+                style={{ filter: clickedPet === item.idx ? "brightness(0.3)" : "brightness(1)" }}
+                src={item.src} alt={item.idx}
                 onError={handleImgError}
               />
-              {clickedPet === item.name ? <FaCheck className="check-icon" /> : ""}
-              <span className='dog-name'>{item.name}</span>
+              {clickedPet === item.idx ? <FaCheck className="check-icon" /> : ""}
+              {/* <span className='dog-name'>{item.name}</span> */}
             </li>
           ))}
           <li onClick={() => navigate('/doginfo')}>

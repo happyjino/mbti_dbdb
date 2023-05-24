@@ -1,5 +1,5 @@
-const MyRadio = ({ name, type, value, text }) => {
-  
+const MyRadio = ({ name, type, value, text, checked = "", onChange }) => {
+
   return (
     <label className="check-container">
       <input
@@ -8,6 +8,8 @@ const MyRadio = ({ name, type, value, text }) => {
         name={name}
         value={value}
         style={{ display: "none" }}
+        checked={checked === `${value}`}
+        onChange={onChange}
       />
       <span className={`check-box`} style={{ textAlign: "center" }}>
         {text}

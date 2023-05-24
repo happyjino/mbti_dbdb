@@ -9,9 +9,9 @@ import { AuthContext } from "../components/AuthContext";
 
 const DogPost = () => { 
 
-  const { user } = useContext(LoginStateContext);
   const [posts, setPosts] = useState([]);
   const [change, setChange] = useState(true);
+  const nickname = localStorage.getItem('nickname');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const domain = "/api"
@@ -26,12 +26,10 @@ const DogPost = () => {
   const getPostData = async () => {
     const token = localStorage.getItem('token');
     const response = await fetch(`${domain}/post/getallpost`, {
-      method: 'POST',
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ nickname: user })
+      }
     });
 
     if (response.ok) {
@@ -78,7 +76,7 @@ const DogPost = () => {
         </div>
         <div className="post-content">
           {posts.map((it, index) => (
-            <Post postData={it} key={index} user={user} onChange={setChange} />
+            <Post postData={it} key={index} user={nickname} onChange={setChange} />
           ))}
         </div>
       </div>

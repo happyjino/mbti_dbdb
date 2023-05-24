@@ -12,7 +12,8 @@ const EmailLogin = () => {
   const passwordInputRef = useRef(null);
   const navigate = useNavigate();
   const { login, loginUpdate } = useContext(AuthContext);
-  const domain = "/api"
+  const { setUser, setMemberId } = useContext(LoginStateContext);
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
 
   useEffect(() => {
     if (login) {
@@ -32,6 +33,23 @@ const EmailLogin = () => {
     setPassword(event.target.value);
   };
 
+  const getNickname = async () => {
+    const token = localStorage.getItem('token');
+    const responseNick = await fetch(`${domain}/member/profile`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    if (responseNick.ok) {
+      const result = await responseNick.json();
+      localStorage.setItem('nickname', result.data.memberNick);
+    } else {
+      console.log(responseNick.status);
+    }
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (email && password) {
@@ -40,15 +58,14 @@ const EmailLogin = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ memberEmail: email, memberPw: password })
       });
 
       if (response.ok) {
-        const userInfo = await response.json();
-        setUser(userInfo.nickname);
-        setMemberId(userInfo.memberId);
-        localStorage.setItem('token', userInfo.token);
+        const res = await response.json();
+        localStorage.setItem('token', res.data.accessToken);
         loginUpdate();
+        getNickname();
         navigate('/main');
       } else if (response.status === 401) {
         const err = await response.text();
@@ -60,8 +77,6 @@ const EmailLogin = () => {
       passwordInputRef.current.focus();
     }
   };
-
-  const { setUser, setMemberId } = useContext(LoginStateContext);
 
   return (
     <div className="email-login">

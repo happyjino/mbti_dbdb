@@ -20,6 +20,7 @@ import "./css/DogExplanation.css";
 import "./css/DogBoast.css";
 import "./css/RegisterMember.css";
 import "./css/EditDogInfo.css";
+import "./css/UpdatePassword.css";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -38,6 +39,7 @@ import DogExplanation from './pages/DogExplanation.js';
 import DogBoast from "./pages/DogBoast";
 import RegisterMember from "./pages/RegisterMember";
 import DogDetail from "./pages/DogDetail";
+import UpdatePassword from "./pages/UpdatePassword";
 
 import { createContext, useEffect, useState } from "react";
 
@@ -45,19 +47,30 @@ import { AuthProvider } from "./components/AuthContext";
 import EditDogInfo from "./pages/EditDogInfo";
 
 export const LoginStateContext = createContext();
-export const PetListContext = createContext();
+export const PetContext = createContext();
 
 function App() {
   
   const [user, setUser] = useState("");
   const [memberId, setMemberId] = useState(0);
   const [petList, setPetList] = useState([]);
+  const [petInfo, setPetInfo] = useState({
+    petId: 0,
+    petName: "",
+    petBreed: "",
+    petBday: "",
+    petGender: "",
+    petNtlz: "",
+    petWeight: 0,
+    petProfile: "",
+    petMbti: null   
+  });
 
   return (
     <BrowserRouter>
       <div className="App">
-        <LoginStateContext.Provider value={{ user, memberId, setUser, setMemberId }}>
-          <PetListContext.Provider value={{ petList, setPetList }}>
+        <LoginStateContext.Provider value={{  }}>
+          <PetContext.Provider value={{ petList, setPetList, petInfo, setPetInfo }}>
             <AuthProvider >
               <Routes>
                 <Route path="/login" element={<APILogin />} />
@@ -74,10 +87,11 @@ function App() {
                 <Route path="/dogpost" element={<DogPost />} />
                 <Route path="/DogBoast" element={<DogBoast />} />
                 <Route path="/register" element={<RegisterMember />} />
+                <Route path="/updatePassword" element={<UpdatePassword />} />
                 <Route path="/DogSelect" element={<DogSelect />} />
               </Routes>
             </AuthProvider>
-          </PetListContext.Provider>
+          </PetContext.Provider>
         </LoginStateContext.Provider>
       </div>
     </BrowserRouter>

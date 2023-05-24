@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { LoginStateContext, PetListContext } from "../App";
+import { useContext, useEffect } from "react";
+import { PetContext } from "../App";
 import TopNavigation from "../components/TopNavigation";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -7,49 +7,42 @@ import { useLocation, useNavigate } from "react-router-dom";
 const DogDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const petName = location.state;
-  const { petList } = useContext(PetListContext);
-  const { user, memberId } = useContext(LoginStateContext);
-  const [petInfo, setPetInfo] = useState({
-    petName: "",
-    petBreed: "",
-    petBirth: "",
-    petGender: "",
-    petNtlz: "",
-    petWeight: 0,
-    petImage: "",
-  });
+  const petId = location.state;
+  const { petList, petInfo, setPetInfo } = useContext(PetContext);
 
-  const domain = "/api"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
+
+  const goEditDogInfo = () => {
+    navigate('/editdoginfo')
+  }
 
   const getPetDetail = async () => {
-    const response = await fetch(`${domain}/pet/getPetDetail`, {
-      method: 'POST',
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${domain}/pet/${petId}`, {
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ nickname: user, petName })
+        'Authorization': `Bearer ${token}`
+      }
     });
 
     if (response.ok) {
       const result = await response.json();
-      setPetInfo({ ...result.petInfo })
+      setPetInfo({ ...result.data })
     } else {
       console.log('pet 상세불러오기 실패');
     }
   }
 
-  const editPet = () => {
-
-  }
-
   const deletePet = async () => {
-    const response = await fetch(`${domain}/pet/deletePet`, {
-      method: 'POST',
+    const petId = petInfo.petId;
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${domain}/pet/delete/${petId}`, {
+      method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name: petInfo.petName, memberId: memberId})
+        'Authorization': `Bearer ${token}`
+      }
     });
 
     if (response.ok) {
@@ -78,29 +71,29 @@ const DogDetail = () => {
                 이름 &nbsp;<span className="pet-info-value">{petInfo.petName}</span>
               </div>
               <div className="btn-box">
-                <div className="control-button" onClick={editPet}>수정하기</div>
+                <div className="control-button" onClick={goEditDogInfo}>수정하기</div>
                 <div className="control-button" onClick={deletePet}>삭제하기</div>
               </div>
             </div>
             <div className="pet-detail-info">
               <div className="pet-image-box">
-                <img src={petInfo.petImage} className="pet-image" />
+                <img src={petInfo.petProfile} alt="펫이미지" className="pet-image" />
               </div>
               <div className="pet-detail">
                 <div className="pet-gender" >
-                  성별 <span className="pet-info-value">{petInfo.petGender === "Male" ? "남아" : "여아" }</span>
+                  성별 <span className="pet-info-value">{petInfo.petGender === "MALE" ? "남아" : "여아" }</span>
                 </div>
                 <div className="pet-breed">
                   견종 <span className="pet-info-value">{petInfo.petBreed}</span>
                 </div>
                 <div className="pet-birth">
-                  생년월일/나이 <span className="pet-info-value">{petInfo.petBirth} ({2023 + 1 - petInfo.petBirth.slice(0, 4)}살) </span>
+                  생년월일/나이 <span className="pet-info-value">{petInfo.petBday} ({2023 + 1 - petInfo.petBday.slice(0, 4)}살) </span>
                 </div>
                 <div className="pet-weight">
                   몸무게 <span className="pet-info-value">{Math.round(petInfo.petWeight * 10) / 10}kg</span>
                 </div>
                 <div className="pet-ntlz">
-                  중성화 수술 <span className="pet-info-value">{petInfo.petNtlz === "Ntlz" ? "O" : "X"}</span>
+                  중성화 수술 <span className="pet-info-value">{petInfo.petNtlz === "NTLZ" ? "O" : "X"}</span>
                 </div>
               </div>
             </div>

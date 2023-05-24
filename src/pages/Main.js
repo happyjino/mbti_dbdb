@@ -1,23 +1,20 @@
-import React, {useCallback, useContext, useEffect, useMemo, useState} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import TopNavigation from '../components/TopNavigation';
-// import Swiper core and required modules
+import { LoginStateContext, PetContext } from '../App';
+import { AuthContext } from '../components/AuthContext';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
-import { LoginStateContext, PetListContext } from '../App';
-import { AuthContext } from '../components/AuthContext';
-
 const Main = () => {
-  const { login } = useContext(AuthContext);
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
   const navigate = useNavigate();
-  const { petList, setPetList } = useContext(PetListContext);
+  const { login, loginUpdate } = useContext(AuthContext);
+  const { petList, setPetList } = useContext(PetContext);
   const { user } = useContext(LoginStateContext);
   const [loaded, setLoaded] = useState(false);
   const [dogArr, setDogArr] = useState([]);
@@ -34,41 +31,50 @@ const Main = () => {
     navigate('/dogpost');
   };
 
-  const goPetDetail = (petName) => {
+  const goPetDetail = (petId) => {
     navigate('/dogdetail', {
-      state: petName
+      state: petId
     });
   }
 
   // 이미지 에러시 띄워줄 기본 이미지
   const handleImgError = (e) => {
-      e.target.src = "assets/dog.jpg";
+    e.target.src = "assets/dog.jpg";
   };
 
-  const domain = "/api"
+  useEffect(() => {
+    loginUpdate();
+    if (!login) {
+      navigate('/');
+    }
+  }, [login, navigate])
+
+  
 
   // 강아지 정보 불러오기
   useEffect(() => {
     const getPet = async () => {
-      const response = await fetch(`${domain}/pet/getallpet`, {
-        method: 'POST',
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${domain}/pet/petList`, {
+        method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ nickname: user })
+          // 'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (response.ok) {
         const result = await response.json();
-        const getPetList = result.map((pet, index) => ({
-          idx: `dNum${index + 1}`,
-          name: pet.name,
-          src: pet.image,
+        const getPetList = result.data.map((pet) => ({
+          idx: pet.petId,
+          src: pet.petProfile,
         }));
+        
         setPetList(getPetList);
         setLoaded(true);
-      } else if (response.status === 401) {
-        if (login) alert("강아지가 없습니다.");
+        
+      } else if (response.status === 400) {
+        // alert('강아지 없음');
         setPetList([]);
         setLoaded(true);
       } else {
@@ -77,30 +83,22 @@ const Main = () => {
       }
     }
     getPet();
-  }, [user]);
-
-  useEffect(() => {
-    if (!login) {
-      alert("로그인이 필요합니다.");
-      navigate('/login');
-    }
-  }, [login, navigate])
+  }, [navigate]);
 
   useEffect(() => {
     if (loaded) {
       if (petList === null || petList.length === 0) {
-        alert("강아지 등록을 먼저 해주세요!");
+        alert("등록된 강아지가 없습니다. 강아지 등록을 먼저 해주세요!");
         navigate('/doginfo');
       } else {
         const updatedDogArr = petList.map((item) => (
           <SwiperSlide key={item.idx} className="dog-slide">
             <img
               src={item.src}
-              alt={item.name}
+              alt="펫이미지"
               onError={handleImgError}
             />
-            <span className="dog-name">{item.name}</span>
-            <button className="dog-info-btn" onClick={() => goPetDetail(item.name)}>
+            <button className="dog-info-btn" onClick={() => goPetDetail(item.idx)}>
               펫 정보
             </button>
           </SwiperSlide>
@@ -108,20 +106,7 @@ const Main = () => {
         setDogArr(updatedDogArr);
       }
     }
-  }, [petList, navigate, loaded]);
-
-  // const dogArr = useMemo(() => petList.map((item) =>  (
-  //   <SwiperSlide key={item.idx} className="dog-slide">
-  //     <img  
-  //       src={item.src}
-  //       alt={item.name} 
-  //       onError={handleImgError}/>
-  //     <span className='dog-name'>{item.name}</span>
-  //     <button className='dog-info-btn' onClick={() => goPetDetail(item.name)}>펫 정보</button>
-  //   </SwiperSlide>
-  // )), [petList, goPetDetail]);  
-
-  // 강아지 목록
+  }, [petList]);
   
   return (
     <>

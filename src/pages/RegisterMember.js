@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const RegisterMember = () => {
   const navigate = useNavigate();
-  const domain = "/api"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
 
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
@@ -106,22 +106,44 @@ const RegisterMember = () => {
     }))
   }
 
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   const response = await fetch(`${domain}/member/signup`, {
+  //     method: 'POST',
+  //     mode: 'no-cors',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({ memberNick: nickname, memberEmail: email, memberPw: pw1, checkPw: pw2})
+  //   });
+
+  //   if (response.ok) {
+  //     navigate('/main');
+  //   } else {
+  //     alert('멤버 가입실패');
+  //     console.log(response);
+  //   }
+  // }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch(`${domain}/member/join`, {
+    fetch(`${domain}/member/signup`, {
       method: 'POST',
+      // mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ nickname, email, pw: pw1})
-    });
-
-    if (response.ok) {
-      navigate('/main');
-    } else {
-      alert('멤버 가입실패');
-    }
+      body: JSON.stringify({ memberNick: nickname, memberEmail: email, memberPw: pw1, checkPw: pw2})
+    }).then(response => {
+      if (response.ok) {
+        alert('good');
+        navigate('/login')
+      }
+    }).catch(error => {
+      console.error(error.message);
+    })
   }
 
   return (

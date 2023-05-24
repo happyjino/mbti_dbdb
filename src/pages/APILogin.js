@@ -11,7 +11,7 @@ const APILogin = () => {
   console.log(login);
   useEffect(() => {
     if (login) {
-      navigate(-1);
+      navigate('/main');
     }
   }, [])
 

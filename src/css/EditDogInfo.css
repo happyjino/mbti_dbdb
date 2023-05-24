@@ -4,22 +4,27 @@
   display: flex;
   flex-direction: column;
   padding: 0px 35px;
-  min-height: 100vh;
+  min-height: auto;
 }
 
 .edit-dog-info .main {
   display: flex;
   flex-direction: column;
-  height: 60vh;
-  margin-top: 60px;
+  height: auto;
+  margin-top: 30px;
+}
+
+.edit-dog-info .input-title {
+  margin: 5px 0px 5px 15px;
+  color: #766b63;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .edit-dog-info .input-box {
   display: flex;
   margin-bottom: 15px;
 }
-
-/* step1 */
 
 .edit-dog-info .input-box .select-wrapper {
   display: flex;
@@ -52,13 +57,8 @@
   color: black;
 }
 
-.edit-dog-info .pet-breed-box {
-  color: gray;
-}
-
 .edit-dog-info .pet-breed-box option {
   font-size: 13.5px;
-  /* font-family: Arial, Helvetica, sans-serif; */
   font-family: 'Inter';
   font-weight: 700;
   color: black;
@@ -68,12 +68,6 @@
   outline: none;
 }
 
-/* step2 */
-
-/* .edit-dog-info .date-input {
-  display: none;
-} */
-
 .edit-dog-info .calendar {
   color: rgb(89, 83, 103);
   font-size: 15px;
@@ -81,15 +75,13 @@
   cursor: pointer;
 }
 
-.edit-dog-info .input-title {
-  margin: 0px 0px 5px 5px;
-  color: #766b63;
-  font-size: 15px;
-  font-weight: 600;
+.edit-dog-info .input-box .date {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 300;
 }
 
-/* step2 - check */
-
+/* check css */
 .edit-dog-info .check-container {
   display: flex;
   width: 100%;
@@ -119,12 +111,25 @@
   background-color: #665645;
 }
 
-/* step2 - weight box */
+/* weight image css */
+
+.edit-dog-info .input-title-box {
+  display: flex;
+}
+
+.edit-dog-info .input-title-box .input-title {
+  width: 35%;
+}
+
+.edit-dog-info .input-title-box + .input-box {
+  display: flex;
+}
 
 .edit-dog-info .weight-box {
   display: flex;
   justify-content: flex-start;
-  width: 55%;
+  width: 50%;
+  height: 40px;
 }
 
 .edit-dog-info .weight-box input {
@@ -147,122 +152,45 @@ input[type="number"]::-webkit-inner-spin-button {
   font-size: 15px;
 }
 
+.edit-dog-info .input-box .image-box {
+  position: relative;
+  width: 40%;
+}
+
+.edit-dog-info .input-box .image-box .pet-image {
+  width: 140px;
+  height: 168px;
+  border-radius: 20px;
+  margin: 0px 10px;
+}
+
+.edit-dog-info .input-box .image-box .edit-msg {
+  color: transparent;
+  height: 0px;
+}
+
+.edit-dog-info .input-box .image-box:hover .edit-msg {
+  height: auto;
+  position: absolute;
+  color: white;
+  top: 60px;
+  left: 55px;
+  /* border: 1px solid black; */
+  border-radius: 5px;
+  /* opacity: 30%; */
+  background-color: #5d524aaa;
+  padding: 10px;
+  /* width: 30px */
+}
+
+
 .edit-dog-info .btn-wrapper {
   display: flex;
-  margin-bottom: 200px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
-/* step3 */
-
-.edit-dog-info .edit-dog-info-box {
-  background-color: #efe7e0;
-  margin: 3px;
-  padding: 10px 20px;
-  border-radius: 8px;
-
-  color: #837E70;
-  font-size: 15px;
-  /* font-weight: 600; */
-}
-
-.edit-dog-info .edit-dog-info-box .box-top-part {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  margin-bottom: 15px;
-}
-
-.edit-dog-info .edit-dog-info-box .box-top-part .btn-box {
-  display: flex;
-}
-
-.edit-dog-info .edit-dog-info-box .box-top-part .control-button {
-  border: 1px solid #5d524a;
-  color: #5d524a;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 0px 5px;
-  cursor: pointer;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-}
-
-.edit-dog-info .pet-name-box {
-  /* margin-top: 8px;
-  margin-bottom: 5px; */
-  /* line-height: -100px; */
-  display: flex;
-  align-items: center;
-  
-}
-
-.edit-dog-info .edit-dog-info-box .pet-detail-info {
-  display: flex;
-  margin: 8px 0px;
-}
-
-.edit-dog-info .edit-dog-info-box .pet-image {
-  width: 100px;
-  height: 120px;
-  border-radius: 20px;
-  margin-right: 15px;
-}
-
-.edit-dog-info .edit-dog-info-box .no-pet-image {
-  width: 100px;
-  height: 120px;
-  border-radius: 20px;
-  margin-right: 15px;
-
-  background-color: #5d524a;
-}
-
-.edit-dog-info .edit-dog-info-box .pet-detail {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  /* height: 110px; */
-}
-
-.edit-dog-info .edit-dog-info-box .edit-dog-info-value {
-  font-size: 15px;
-  color: #5d524a;
-  font-weight: 700;
-}
-
-/* check-message */
-
-.edit-dog-info .check-message {
-  display: flex;
-  justify-content: center;
-
-  color: #efe7e0;
-  font-size: 14px;
-}
-
-/* input-image */
-
-/* input[type="file"] {
-  position: absolute;
-  width: 0;
-  height: 0;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: none;
-  appearance: none;
-} */
-
-/* 파일 선택 버튼 숨기기 */
-/* input[type="file"]::-webkit-file-upload-button {
-  display: none;
-}
-
-input[type="file"]::-moz-file-upload-button {
-  display: none;
-} */
-
-
+/* datepicker css */
 .react-datepicker-wrapper,
 .react-datepicker-wrapper > * {
   width: 0px !important;

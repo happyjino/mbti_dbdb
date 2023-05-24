@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState} from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TopNavigation from '../components/TopNavigation';
 import { FaCheck } from 'react-icons/fa'
-import { LoginStateContext, PetListContext } from '../App';
+import { LoginStateContext, PetContext } from '../App';
 
 const DogBoast = () => {
 	const domain = "/api"
 
-	const { petList } = useContext(PetListContext);
+	const { petList } = useContext(PetContext);
 	const { user } = useContext(LoginStateContext);
 
 	const navigate = useNavigate();

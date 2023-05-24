@@ -6,7 +6,7 @@ import { AuthContext } from "./AuthContext";
 
 const TopNavigation = () => {
   const navigate = useNavigate();  
-  const { user } = useContext(LoginStateContext);
+  const nickname = localStorage.getItem('nickname');
   const { loginUpdate } = useContext(AuthContext);
 
   const logout = () => {
@@ -27,6 +27,29 @@ const TopNavigation = () => {
   const goBack = () => {
     navigate(-1);
   };
+
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
+
+  const deleteMember = async () => {
+    const token = localStorage.getItem('token');
+
+    const response = await fetch(`${domain}/member/delete`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (response.ok) {
+      localStorage.removeItem('token');
+      alert("성공적으로 탈퇴가 되었습니다.")
+      loginUpdate();
+      navigate('/')
+    } else {
+      alert("탈퇴 실패");
+    }
+  }
+
   return (
     <>
       <header className="top-nav">
@@ -54,10 +77,13 @@ const TopNavigation = () => {
         </div>
         <div className="toggle-menu-content">
           <div className="user-box">
-            {user} 보호자님
+            {nickname} 보호자님
           </div>
-          <div className="user-info-box" >
+          <div className="user-info-box" onClick={() => navigate('/updatePassword')}>
             개인정보 재설정
+          </div>
+          <div className="user-info-box" onClick={deleteMember}>
+            회원 탈퇴
           </div>
         </div>
       </div>
