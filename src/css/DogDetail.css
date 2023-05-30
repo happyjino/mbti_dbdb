@@ -1,7 +1,6 @@
 .dog-detail {
   display: flex;
   flex-direction: column;
-  padding: 0px 35px;
   min-height: 100vh;
 }
 
@@ -10,6 +9,7 @@
   flex-direction: column;
   height: 100vh;
   margin-top: 60px;
+  padding: 0px 35px;
 }
 
 .dog-detail .pet-info-box {

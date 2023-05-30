@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const api = require('./routes/index');
+const axios = require('axios');
 
 // JSON 요청 본문 파싱
 // app.use(bodyParser.json());

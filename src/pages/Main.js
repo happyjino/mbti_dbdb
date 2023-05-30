@@ -11,7 +11,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 const Main = () => {
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
   const navigate = useNavigate();
   const { login, loginUpdate } = useContext(AuthContext);
   const { petList, setPetList } = useContext(PetContext);
@@ -42,6 +42,33 @@ const Main = () => {
     e.target.src = "assets/dog.jpg";
   };
 
+  const getPet = async () => {
+    setLoaded(false);
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${domain}/pet/petList`, {
+      method: 'GET',
+      headers: {
+        // 'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      const getPetList = result.data.map((pet) => ({
+        idx: pet.petId,
+        src: pet.petProfile,
+      }));
+      
+      setPetList(getPetList);
+    } else if (response.status === 400) {
+      // alert('강아지 없음');
+      setPetList([]);
+    } else {
+      console.log(response.status);
+    }
+  }
+
   useEffect(() => {
     loginUpdate();
     if (!login) {
@@ -49,41 +76,11 @@ const Main = () => {
     }
   }, [login, navigate])
 
-  
-
   // 강아지 정보 불러오기
   useEffect(() => {
-    const getPet = async () => {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${domain}/pet/petList`, {
-        method: 'GET',
-        headers: {
-          // 'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        const getPetList = result.data.map((pet) => ({
-          idx: pet.petId,
-          src: pet.petProfile,
-        }));
-        
-        setPetList(getPetList);
-        setLoaded(true);
-        
-      } else if (response.status === 400) {
-        // alert('강아지 없음');
-        setPetList([]);
-        setLoaded(true);
-      } else {
-        console.log(response.status);
-        setLoaded(true);
-      }
-    }
     getPet();
-  }, [navigate]);
+    setLoaded(true);
+  }, [user, navigate, loaded]);
 
   useEffect(() => {
     if (loaded) {
@@ -106,7 +103,7 @@ const Main = () => {
         setDogArr(updatedDogArr);
       }
     }
-  }, [petList]);
+  }, [user, petList]);
   
   return (
     <>

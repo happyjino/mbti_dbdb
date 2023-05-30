@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
 
 const UpdatePassword = () => {
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
 
   const navigate = useNavigate();
   const { loginUpdate } = useContext(AuthContext)
@@ -18,7 +19,7 @@ const UpdatePassword = () => {
   })
 
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
+    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{9,}$/;
 
     if (!passwordRegex.test(password)) {
       setPw1Check(false);
@@ -65,28 +66,31 @@ const UpdatePassword = () => {
     }))
   }
 
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
-
   const changeNewPw = async () => {
-    const token = localStorage.getItem('token');
-    const response = await fetch(`${domain}/member/updatePw`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }, 
-      body: JSON.stringify({memberPw: pw1, checkPw: pw2})
-    });
+    if (pw1Check && pw2Check) {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${domain}/member/updatePw`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }, 
+        body: JSON.stringify({memberPw: pw1, checkPw: pw2})
+      });
 
-    if (response.ok) {
-      localStorage.removeItem('token');
-      loginUpdate();
-      navigate('/');
+      if (response.ok) {
+        localStorage.removeItem('token');
+        loginUpdate();
+        navigate('/');
+      } else {
+        const result = await response.json();
+        console.log(result);
+        alert("실패");
+      }
     } else {
-      const result = await response.json();
-      console.log(result);
-      alert("실패");
+      alert("비밀번호를 확인해주세요");
     }
+    
   }
 
   return (
@@ -109,7 +113,7 @@ const UpdatePassword = () => {
           ))}
         </div>
         {defaultCheck.pw1Check && !pw1Check && (
-          <div className="check-message">특수문자, 대소문자, 숫자 1개 이상을 포함해주세요</div>
+          <div className="check-message">특수문자, 대소문자, 숫자를 포함해 9자 이상</div>
         )}
         <div className="input-box">
           <input

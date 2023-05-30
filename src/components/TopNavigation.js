@@ -28,7 +28,7 @@ const TopNavigation = () => {
     navigate(-1);
   };
 
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
 
   const deleteMember = async () => {
     const token = localStorage.getItem('token');
@@ -82,7 +82,7 @@ const TopNavigation = () => {
           <div className="user-info-box" onClick={() => navigate('/updatePassword')}>
             개인정보 재설정
           </div>
-          <div className="user-info-box" onClick={deleteMember}>
+          <div className="user-info-box member-delete-box" onClick={deleteMember}>
             회원 탈퇴
           </div>
         </div>

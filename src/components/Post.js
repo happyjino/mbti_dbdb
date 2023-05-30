@@ -9,7 +9,7 @@ const Post = ({ postData, user, onChange }) => {
   const [contentEdit, setContentEdit] = useState(false);
   const [content, setContent] = useState(postData.content);
   const navigate = useNavigate();
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
 
   const clickLike = async () => {
     const postId = postData.postId;
@@ -151,7 +151,7 @@ const Post = ({ postData, user, onChange }) => {
       </div>
       {contentEdit ? (
         <div className="post-content">
-          <textarea value={content} onChange={(e) => setContent(e.target.value)} />
+          <textarea value={content} placeholder="50자 이내로 작성해주세요." onChange={(e) => setContent(e.target.value)} />
           <div className="edit-btn" onClick={updatePost}>완료</div>
         </div>
       ): (

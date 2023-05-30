@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ImageMap from "image-map";
-import ImageMapper from 'react-img-mapper';
 import TopNavigation2 from '../components/TopNavigation2.js';
 
 

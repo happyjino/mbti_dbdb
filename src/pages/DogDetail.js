@@ -10,7 +10,7 @@ const DogDetail = () => {
   const petId = location.state;
   const { petList, petInfo, setPetInfo } = useContext(PetContext);
 
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
 
   const goEditDogInfo = () => {
     navigate('/editdoginfo')

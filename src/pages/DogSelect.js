@@ -47,7 +47,7 @@ const DogBoast = () => {
       {/* 자랑할 강아지 선택 */}
       <div className="dog-select-warp boat-box">
         <p>
-          <span className="material-symbols-outlined">expand_more</span>자랑하고 싶은 아이를 선택해주세요.
+          <span className="material-symbols-outlined">expand_more</span>분석하고 싶은 아이를 선택해주세요.
         </p>
         <ul className='boast-list'>
           {dogInfoList.map((item) => (

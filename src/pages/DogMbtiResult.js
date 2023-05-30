@@ -1,9 +1,6 @@
 import React , {useEffect} from "react";
-// import {useState } from "react";
 import { useNavigate} from "react-router-dom";
 import TopNavigation2 from '../components/TopNavigation2.js';
-// import ImageMap from "image-map";
-// import ImageMapper from 'react-img-mapper';
 import { useLocation } from 'react-router-dom';
 import dbtiConnection from '../components/DbtiConnection.js';
 

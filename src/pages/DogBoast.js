@@ -1,28 +1,18 @@
-import React, { useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useRef, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import TopNavigation from '../components/TopNavigation';
 import { FaCheck } from 'react-icons/fa'
 import { LoginStateContext, PetContext } from '../App';
 
 const DogBoast = () => {
-	const domain = "/api"
-
+	const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
 	const { petList } = useContext(PetContext);
-	const { user } = useContext(LoginStateContext);
-
 	const navigate = useNavigate();
-
 	const [page, setPage] = useState(1);
-	const [imageSrc, setImageSrc] = useState('');
-	const dogInfoList = petList;
 	const [clickedPet, setClickedPet] = useState("");
 	const [content, setContent] = useState("");
-	const [mpinfo, setMpinfo] = useState({
-		nickname: user,
-		petName: ""
-	})
-
-	let post;
+	const [selectedImage, setSelectedImage] = useState();
+	const [imageUrl, setImageUrl] = useState();
 
 	// 강아지 정보 있는지 확인
 	useEffect(() => {
@@ -36,46 +26,36 @@ const DogBoast = () => {
 	// 이미지 에러시 띄워줄 기본 이미지
 	const handleImgError = (e) => {e.target.src = "assets/dog.jpg"};
 
-	const handleClick = (petName) => {
-		setClickedPet(petName);
-		setMpinfo(prevInfo => ({...prevInfo, petName: petName}))
+	const handleClick = (petId) => {
+		setClickedPet(petId);
 	};
 
-	const getMemberPetID = async () => {
+	const inputRef = useRef(null);
+  const handleImageBoxClick = () => {
+    inputRef.current?.click();
+  }
 
-		const response = await fetch(`${domain}/getPetMemberID`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(mpinfo)
-		});
-
-		if (response.ok) {
-			const result = await response.json();
-			post = {
-				content: content,
-				imageUrl: imageSrc,
-				memberId: result.memberId,
-				petId: result.petId
-			}
-		} else {
-			alert('petmemberID 가져오기 실패')
-		}
-	}
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+			setSelectedImage(file);
+			setImageUrl(URL.createObjectURL(file))
+    }
+  };
 
 	const createPost = async () => {
-		
-		await getMemberPetID();
 		const token = localStorage.getItem('token');
+		const formData = new FormData();
+    formData.append('petId', clickedPet);
+    formData.append('postImageFile', selectedImage);
+    formData.append('content',  content);
 
-		const response = await fetch(`${domain}/post/createpost`, {
+		const response = await fetch(`${domain}/post/${clickedPet}/register`, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${token}`
 			},
-			body: JSON.stringify(post)
+			body: formData
 		});
 
 		if (response.ok) {
@@ -98,15 +78,15 @@ const DogBoast = () => {
 						<span className="material-symbols-outlined">expand_more</span>자랑하고 싶은 아이를 선택해주세요.
 					</p>
 					<ul className='boast-list'>
-						{dogInfoList.map((item) => (
-							<li className="dog-slide" key={item.idx} onClick={() => handleClick(item.name)}>
+						{petList.map((item) => (
+							<li className="dog-slide" key={item.idx} onClick={() => handleClick(item.idx)}>
 								<img
-									style={{ filter: clickedPet === item.name ? "brightness(0.3)" : "brightness(1)" }}
-									src={item.src} alt={item.name}
+									style={{ filter: clickedPet === item.idx ? "brightness(0.3)" : "brightness(1)" }}
+									src={item.src} alt={item.idx}
 									onError={handleImgError}
 								/>
-								{clickedPet === item.name ? <FaCheck className="check-icon" /> : ""}
-								<span className='dog-name'>{item.name}</span>
+								{clickedPet === item.idx ? <FaCheck className="check-icon" /> : ""}
+								{/* <span className='dog-name'>{item.name}</span> */}
 							</li>
 						))}
 						<li onClick={() => navigate('/doginfo')}>
@@ -121,18 +101,6 @@ const DogBoast = () => {
 		);
 	}
 	else{
-		const encodeFileToBase64 = (fileBlob) => {
-			const reader = new FileReader();
-			reader.readAsDataURL(fileBlob);
-
-			return new Promise((resolve) => {
-				reader.onload = () => {
-					setImageSrc(reader.result);
-					resolve();
-				};
-			});
-		};
-
 		return (
 			<>
 				{/* 탑 네비 */}
@@ -140,14 +108,14 @@ const DogBoast = () => {
 				{/* 전송 폼 */}
 				<form className='boast-form'> 
 					<div className='img-box'>
-						<div className='boast-img'>
-							{imageSrc !== '' ? imageSrc && <img src={imageSrc} alt="preview-img" />:<span className="material-symbols-outlined">add_circle</span>}
+						<div className='boast-img' onClick={handleImageBoxClick}>
+							{imageUrl !== '' ? imageUrl && <img src={imageUrl} alt="preview-img" />:<span className="material-symbols-outlined">add_circle</span>}
 						</div>
 						<label className="profile-label" htmlFor="profileImg">사진 추가</label>
 						<input
 							className="profile-input" type="file"
 							accept="image/*" id="profileImg"
-							onChange={(e) => {encodeFileToBase64(e.target.files[0])}} 
+							onChange={handleImageChange} 
 						/>
 					</div>
 					<div className='boast-content'>

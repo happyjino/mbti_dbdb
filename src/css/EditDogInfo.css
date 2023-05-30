@@ -3,7 +3,6 @@
 .edit-dog-info {
   display: flex;
   flex-direction: column;
-  padding: 0px 35px;
   min-height: auto;
 }
 
@@ -12,6 +11,7 @@
   flex-direction: column;
   height: auto;
   margin-top: 30px;
+  padding: 0px 35px;
 }
 
 .edit-dog-info .input-title {
@@ -188,6 +188,7 @@ input[type="number"]::-webkit-inner-spin-button {
   display: flex;
   margin-top: 50px;
   margin-bottom: 50px;
+  padding: 0px 35px;
 }
 
 /* datepicker css */

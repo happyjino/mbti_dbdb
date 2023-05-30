@@ -13,11 +13,11 @@ const EmailLogin = () => {
   const navigate = useNavigate();
   const { login, loginUpdate } = useContext(AuthContext);
   const { setUser, setMemberId } = useContext(LoginStateContext);
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
 
   useEffect(() => {
     if (login) {
-      navigate(-1);
+      navigate('/main');
     }
   }, [])
 
@@ -53,7 +53,7 @@ const EmailLogin = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (email && password) {
-      const response = await fetch(`${domain}/member/login`, {
+      const response = await fetch(`${domain}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

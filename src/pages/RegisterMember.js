@@ -4,17 +4,19 @@ import { useState } from "react";
 
 const RegisterMember = () => {
   const navigate = useNavigate();
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com:8080"
+  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
 
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [pw1, setPw1] = useState('');
   const [pw2, setPw2] = useState('');
   const [nicknameCheck, setNicknameCheck] = useState(false);
+  const [emailCheck, setEmailCheck] = useState(false);
   const [pw1Check, setPw1Check] = useState(false);
   const [pw2Check, setPw2Check] = useState(false);
   const [defaultCheck, setDefaultCheck] = useState({
     nickname: false,
+    email: false,
     pw1Check: false,
     pw2Check: false
   })
@@ -57,9 +59,65 @@ const RegisterMember = () => {
     }
   }
 
+  const checkEmail = async (event) => {
+    event.preventDefault();
+
+    validateEmail(email);
+    console.log(emailCheck)
+
+    if(emailCheck) {
+      const response = await fetch(`${domain}/member/checkEmail`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email })
+      })
+
+      if (response.ok) {
+        setDefaultCheck(prev => ({
+          ...prev,
+          email: true
+        }));
+        setEmailCheck(true);
+      } else {
+        setDefaultCheck(prev => ({
+          ...prev,
+          email: true
+        }));
+        setEmailCheck(false);
+      }
+    } else {
+      alert("유효하지 않은 이메일입니다.");
+    }
+  }
+
+  const changeEmail = (e) => {
+    setEmail(e.target.value);
+    setDefaultCheck(prev => ({
+      ...prev,
+      email: false
+    }));
+  }
+
+  // 이메일 유효성 검사
+  const validateEmail = (email) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if(!emailRegex.test(email)) {
+      setEmailCheck(false);
+    } else {
+      setEmailCheck(true);
+    }
+    // setDefaultCheck(prev => ({
+    //   ...prev,
+    //   email: true
+    // }))
+  }
+
   // 비밀번호 유효성 검사
   const validatePassword = (password) => {
-    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
+    const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{9,}$/;
 
     if (!passwordRegex.test(password)) {
       setPw1Check(false);
@@ -106,44 +164,28 @@ const RegisterMember = () => {
     }))
   }
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   const response = await fetch(`${domain}/member/signup`, {
-  //     method: 'POST',
-  //     mode: 'no-cors',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({ memberNick: nickname, memberEmail: email, memberPw: pw1, checkPw: pw2})
-  //   });
-
-  //   if (response.ok) {
-  //     navigate('/main');
-  //   } else {
-  //     alert('멤버 가입실패');
-  //     console.log(response);
-  //   }
-  // }
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    fetch(`${domain}/member/signup`, {
-      method: 'POST',
-      // mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ memberNick: nickname, memberEmail: email, memberPw: pw1, checkPw: pw2})
-    }).then(response => {
-      if (response.ok) {
-        alert('good');
-        navigate('/login')
-      }
-    }).catch(error => {
-      console.error(error.message);
-    })
+    if (nicknameCheck && emailCheck && pw1Check && pw2Check) {
+      fetch(`${domain}/member/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ memberNick: nickname, memberEmail: email, memberPw: pw1, checkPw: pw2})
+      }).then(response => {
+        if (response.ok) {
+          alert('good');
+          navigate('/login')
+        }
+      }).catch(error => {
+        console.error(error.message);
+      })
+    } else {
+      alert('중복 확인')
+    }
+    
   }
 
   return (
@@ -176,10 +218,20 @@ const RegisterMember = () => {
             className="input input-value"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={changeEmail}
+            onBlur={(e) => validateEmail(e.target.value)}
             placeholder="이메일"
           />
+          <button className="nickname-check-btn" onClick={checkEmail}>중복 확인</button>
+          {!defaultCheck.email ? null : ( emailCheck ? (
+            <span className="material-symbols-outlined check-icon">done</span>
+          ) : (
+            <span className="material-symbols-outlined bad-check-icon">close</span>    
+          ))}
         </div>
+        {defaultCheck.email && !emailCheck && (
+          <div className="check-message">사용 중인 이메일입니다.</div>
+        )}
         <div className="input-box">
           <input
             className="input input-value"
@@ -196,7 +248,7 @@ const RegisterMember = () => {
           ))}
         </div>
         {defaultCheck.pw1Check && !pw1Check && (
-          <div className="check-message">특수문자, 대소문자, 숫자 1개 이상을 포함해주세요</div>
+          <div className="check-message">특수문자, 대소문자, 숫자를 포함해 9자 이상</div>
         )}
         <div className="input-box">
           <input
