@@ -30,7 +30,7 @@ import ForgetPw from "./pages/ForgetPw";
 import Question from "./pages/Question";
 import DogSelect from './pages/DogSelect.js';
 import DogInfo from "./pages/DogInfo";
-import Transition from "./components/Transition";
+// import Transition from "./components/Transition";
 import Home from "./pages/Home.js";
 import Main from "./pages/Main.js";
 import DogPost from "./pages/DogPost";

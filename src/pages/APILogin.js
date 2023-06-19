@@ -3,20 +3,20 @@ import MyButton from "../components/MyButton";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
 // import { Kakao } from 'kakao-sdk';
-import axios from 'axios';
 
 const APILogin = () => {
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   
   const [kakaoLogin, setKakaoLogin] = useState(false);
+  if(false) console.log(kakaoLogin, setKakaoLogin)
 
   useEffect(() => {
     if (login) {
       navigate('/main');
     }
-  }, [])
+  }, [login])
 
   const goEmailLogin = () => {
     navigate(`/loginEmail`);

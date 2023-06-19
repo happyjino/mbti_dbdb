@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import 'moment/locale/ko';
 
@@ -20,7 +20,7 @@ const Post = ({ postData, user, onChange }) => {
   const [heartSticker, setHeartSticker] = useState("none");
   const [contentEdit, setContentEdit] = useState(false);
   const [content, setContent] = useState(postData.content);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const domain = "http://ec2-3-36-140-165.ap-northeast-2.compute.amazonaws.com/api"
   const clickLike = async () => {
     const token = localStorage.getItem('token');
@@ -124,12 +124,12 @@ const Post = ({ postData, user, onChange }) => {
     } else {
       setHeartImg("heart_empty");
     }
-  }, []);
+  }, [likeClick]);
   
   return (
     <div className="post-box">
       <div className="post-head">
-        <img className="pet-img" src={postData.petImg} />
+        <img className="pet-img" src={postData.petImg} alt="pet-img"/>
         {/* <div className="pet-img" /> */}
         <div className="post-info">
           <div className="post-writer">
