@@ -2,17 +2,17 @@ import React, { useContext, useEffect, useRef, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import TopNavigation from '../components/TopNavigation';
 import { FaCheck } from 'react-icons/fa'
-import { LoginStateContext, PetContext } from '../App';
+import { PetContext } from '../App';
 
 const DogBoast = () => {
-	const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
+	const domain = "http://ec2-3-36-140-165.ap-northeast-2.compute.amazonaws.com/api"
 	const { petList } = useContext(PetContext);
 	const navigate = useNavigate();
 	const [page, setPage] = useState(1);
 	const [clickedPet, setClickedPet] = useState("");
 	const [content, setContent] = useState("");
 	const [selectedImage, setSelectedImage] = useState();
-	const [imageUrl, setImageUrl] = useState();
+	const [imageUrl, setImageUrl] = useState('');
 
 	// 강아지 정보 있는지 확인
 	useEffect(() => {
@@ -109,7 +109,8 @@ const DogBoast = () => {
 				<form className='boast-form'> 
 					<div className='img-box'>
 						<div className='boast-img' onClick={handleImageBoxClick}>
-							{imageUrl !== '' ? imageUrl && <img src={imageUrl} alt="preview-img" />:<span className="material-symbols-outlined">add_circle</span>}
+							{/* {imageUrl !== '' ? imageUrl && <img src={imageUrl} alt="preview-img" /> : <span className="material-symbols-outlined">add_circle</span>} */}
+							{imageUrl !== '' ? <img src={imageUrl} alt="preview-img" />:<span className="material-symbols-outlined">add_circle</span>}
 						</div>
 						<label className="profile-label" htmlFor="profileImg">사진 추가</label>
 						<input

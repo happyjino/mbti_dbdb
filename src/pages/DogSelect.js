@@ -24,19 +24,21 @@ const DogBoast = () => {
 	// 있는 강아지 리스트
 	const dogInfoList = petList;
 
-	const [clickedPet, setClickedPet] = useState("");
+  const [clickedPetId, setClickedPetId] = useState("");
+  const [clickedPetName, setClickedPetName] = useState("");
 
-	const handleClick = (petId) => {
-    setClickedPet(petId);
+	const handleClick = (petId, petName) => {
+    setClickedPetId(petId);
+    setClickedPetName(petName)
   };
   
   const handleSelect = () => {
-    if (clickedPet === "") {
+    if (clickedPetId === "") {
       alert('분석할 강아지를 선택해주세요');
       return;
     }
     navigate('/question', {
-      state: clickedPet
+      state: { petId: clickedPetId, petName: clickedPetName }
     });
   }
 
@@ -51,13 +53,13 @@ const DogBoast = () => {
         </p>
         <ul className='boast-list'>
           {dogInfoList.map((item) => (
-            <li className="dog-slide" key={item.idx} onClick={() => handleClick(item.idx)}>
+            <li className="dog-slide" key={item.idx} onClick={() => handleClick(item.idx, item.name)}>
               <img
-                style={{ filter: clickedPet === item.idx ? "brightness(0.3)" : "brightness(1)" }}
+                style={{ filter: clickedPetId === item.idx ? "brightness(0.3)" : "brightness(1)" }}
                 src={item.src} alt={item.idx}
                 onError={handleImgError}
               />
-              {clickedPet === item.idx ? <FaCheck className="check-icon" /> : ""}
+              {clickedPetId === item.idx ? <FaCheck className="check-icon" /> : ""}
               {/* <span className='dog-name'>{item.name}</span> */}
             </li>
           ))}

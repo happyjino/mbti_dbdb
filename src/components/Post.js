@@ -1,7 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import 'moment/locale/ko';
 
 const Post = ({ postData, user, onChange }) => {
+
+  const regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})\.\d{5}/;
+  const createdAt = postData.createdAt.match(regex).slice(1).join('');
+  const year = parseInt(createdAt.slice(0, 4));
+  const month = parseInt(createdAt.slice(4, 6)) - 1;
+  const day = parseInt(createdAt.slice(6, 8));
+  const hour = parseInt(createdAt.slice(8, 10));
+  const minute = parseInt(createdAt.slice(10, 12));
+  const second = parseInt(createdAt.slice(12, 14));
+  const timeGap = moment([year, month, day, hour, minute, second]).fromNow();
   
   const [likeClick, setLikeClick] = useState(postData.likeClick);
   const [heartImg, setHeartImg] = useState("heart_empty");
@@ -9,24 +21,19 @@ const Post = ({ postData, user, onChange }) => {
   const [contentEdit, setContentEdit] = useState(false);
   const [content, setContent] = useState(postData.content);
   const navigate = useNavigate();
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
-
+  const domain = "http://ec2-3-36-140-165.ap-northeast-2.compute.amazonaws.com/api"
   const clickLike = async () => {
-    const postId = postData.postId;
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`${domain}/post/clickLike`, {
+    const response = await fetch(`${domain}/post/${postData.postId}/like`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ postId, user })
+      }
     });
 
     if (response.ok) {
-      const result = await response.json();
-      postData.like = result.like;
+      postData.like = postData.like + 1;
       setLikeClick(true);
       setHeartImg("heart");
       setHeartSticker("flex");
@@ -37,21 +44,17 @@ const Post = ({ postData, user, onChange }) => {
   }
 
   const cancelLike = async () => {
-    const postId = postData.postId;
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`${domain}/post/cancelLike`, {
+    const response = await fetch(`${domain}/post/${postData.postId}/dislike`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({ postId, user })
+      }
     });
 
     if (response.ok) {
-      const result = await response.json();
-      postData.like = result.like;
+      postData.like = postData.like - 1;
       setHeartImg("heart_empty");
       setLikeClick(false);
     } else {
@@ -60,14 +63,28 @@ const Post = ({ postData, user, onChange }) => {
   }
 
   const updatePost = async () => {
+    const formData = new FormData();
+    const imageUrl = postData.petImageFile;
+    const imageResponse = await fetch(imageUrl, {
+      method: 'GET',
+    });
+    if (!imageResponse.ok) {
+      console.log("이미지 불러오기 에러(게시물 수정)")
+    }
+    const blob = await imageResponse.blob();
+    const file = new File([blob], "postImage.jpg", { type: blob.type });
+
+    formData.append('petId', postData.petId)
+    formData.append('postImageFile', file)
+    formData.append('content', content)
+
     const token = localStorage.getItem('token');
-    const response = await fetch(`${domain}/post/updatePost`, {
+    const response = await fetch(`${domain}/post/${postData.petId}/edit`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({postId: postData.postId, content: content})
+      body: formData
     })
 
     if (response.ok) {
@@ -79,13 +96,11 @@ const Post = ({ postData, user, onChange }) => {
 
   const deletePost = async () => {
     const token = localStorage.getItem('token');
-    const response = await fetch(`${domain}/post/deletePost`, {
-      method: 'POST',
+    const response = await fetch(`${domain}/post/${postData.postId}/deletePost`, {
+      method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify({postId: postData.postId})        
+      }    
     })
     if (response.ok) {
       alert("삭제 성공");
@@ -121,7 +136,7 @@ const Post = ({ postData, user, onChange }) => {
             <span className="person-name">{postData.userName }</span>
             <span className="dog-name">{postData.petName} &nbsp;{postData.petDbti}</span>
           </div>
-          <div className="post-date">10분 전</div>
+          <div className="post-date">{timeGap}</div>
         </div>
         <div className="menu-box">
           <span className="material-symbols-outlined menu" style={{marginTop: "10px"}}>more_vert</span>

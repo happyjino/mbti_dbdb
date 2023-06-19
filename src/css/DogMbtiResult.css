@@ -128,6 +128,7 @@
 }
 
 .result-box .result-content {
+    position: relative;
     padding: 25px;
     display: flex;
     flex-direction: column;
@@ -139,9 +140,18 @@
     width: 100%;
 }
 .result-box .result-content .detail-top {
-    text-align: center;
-    color:#665645;
+  text-align: center;
+  color:#665645;
 }
+.result-box .result-content .side-img {
+  width: 150px;
+  transform: scaleX(1);
+  position: absolute;
+  /* left: 0px; */
+  right: 0px;
+  top: 0px;
+}
+
 .result-box .result-content .detail-top>* {
     margin-bottom: 20px;
 }

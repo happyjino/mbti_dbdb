@@ -10,7 +10,7 @@ const DogDetail = () => {
   const petId = location.state;
   const { petList, petInfo, setPetInfo } = useContext(PetContext);
 
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
+  const domain = "http://ec2-3-36-140-165.ap-northeast-2.compute.amazonaws.com/api"
 
   const goEditDogInfo = () => {
     navigate('/editdoginfo')
@@ -19,7 +19,7 @@ const DogDetail = () => {
   const getPetDetail = async () => {
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`${domain}/pet/${petId}`, {
+    const response = await fetch(`${domain}/pet/${petId}/detailInfo`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -28,7 +28,7 @@ const DogDetail = () => {
 
     if (response.ok) {
       const result = await response.json();
-      setPetInfo({ ...result.data })
+      setPetInfo({ ...result.data, petId: petId })
     } else {
       console.log('pet 상세불러오기 실패');
     }
@@ -38,10 +38,10 @@ const DogDetail = () => {
     const petId = petInfo.petId;
     const token = localStorage.getItem('token');
 
-    const response = await fetch(`${domain}/pet/delete/${petId}`, {
+    const response = await fetch(`${domain}/pet/${petId}/deletePet`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     });
 
@@ -77,7 +77,7 @@ const DogDetail = () => {
             </div>
             <div className="pet-detail-info">
               <div className="pet-image-box">
-                <img src={petInfo.petProfile} alt="펫이미지" className="pet-image" />
+                <img src={petInfo.petImageFile} alt="펫이미지" className="pet-image" />
               </div>
               <div className="pet-detail">
                 <div className="pet-gender" >
@@ -94,6 +94,9 @@ const DogDetail = () => {
                 </div>
                 <div className="pet-ntlz">
                   중성화 수술 <span className="pet-info-value">{petInfo.petNtlz === "NTLZ" ? "O" : "X"}</span>
+                </div>
+                <div className="pet-dbti">
+                  DBTI 결과 <span className="pet-info-value">{petInfo.petDbti === undefined ? "테스트 미실시" : petInfo.petDbti}</span>
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const QuestionBox = ({ text, num, percentIncrease, step }) => {
+const QuestionBox = ({ text, num, percentIncrease, step, QuesType }) => {
   const score = [-3, -2, -1, 1, 2, 3];
 
   return (
@@ -13,6 +13,7 @@ const QuestionBox = ({ text, num, percentIncrease, step }) => {
             num={num}
             value={score}
             percentIncrease={percentIncrease}
+            QuesType={QuesType}
             step={step}
           />
         ))}
@@ -31,7 +32,7 @@ const QuestionBox = ({ text, num, percentIncrease, step }) => {
   );
 };
 
-const MyCheck = ({ num, value, percentIncrease, step }) => {
+const MyCheck = ({ num, value, percentIncrease, step, QuesType }) => {
   const clickCheck = () => {
     const nextQuestion = document.getElementById(`box${num + 1}`);
     const question = document.getElementById(`box${num}`);
@@ -71,6 +72,7 @@ const MyCheck = ({ num, value, percentIncrease, step }) => {
         name={`question${num}`}
         onChange={clickCheck}
         value={value}
+        data-label={QuesType}
         disabled
       />
       <span className={`check-circle ${type}`} />

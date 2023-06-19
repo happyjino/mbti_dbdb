@@ -33,7 +33,7 @@ const APILogin = () => {
   const kakaoClientSecret = 'RZLUqWa60emw1tXfU8X8jCziKS4ojO43'; // 클라이언트 시크릿
 
   const handleKakaoLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${redirectUri}&response_type=code&scope=account_email,openid`;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoClientId}&redirect_uri=${redirectUri}&response_type=code&scope=account_email,openid,talk_message,friends`;
   };
 
   const requestKakaoAccessToken = async () => {

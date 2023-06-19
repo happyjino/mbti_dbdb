@@ -3,19 +3,19 @@ import TopNavigation from "../components/TopNavigation";
 import MyButton from "../components/MyButton";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { LoginStateContext } from "../App";
 import questListBox from "../components/QuestListBox"; // 질문 모음
 
 const Question = () => {
   const navigate = useNavigate();
-  const { user } = useContext(LoginStateContext);
   const { state } = useLocation();
-  const selectedPet = state;
-  const domain = "/api"
+  const { petId, petName } = state;
+  const domain = "http://ec2-3-36-140-165.ap-northeast-2.compute.amazonaws.com/api"
 
   const [step, setStep] = useState(1);
   const [percent, setPercent] = useState(0);
   const [questList, setQuestList] = useState(questListBox.ques1);
+  
+  const [finished, setFinished] = useState(false);
   const [dbti, setDbti] = useState({
     step1: 0,
     step2: 0,
@@ -26,8 +26,6 @@ const Question = () => {
     relationship: "E", // I
     activity: "A" // L
   });
-
-  const [finished, setFinished] = useState(false);
 
   const percentIncrease = (num) => {
     if (num % 3 === 0) {
@@ -48,7 +46,11 @@ const Question = () => {
     const elements = document.querySelectorAll("input:checked");
     var stepScore = 0;
     elements.forEach((it) => {
-      stepScore = stepScore + parseInt(it.getAttribute("value"));
+      if (it.getAttribute('data-label') === 'plus') {
+        stepScore = stepScore + parseInt(it.getAttribute("value"));
+      } else {
+        stepScore = stepScore - parseInt(it.getAttribute("value"));
+      }
     });
 
     // 해당 스텝에 점수 부여
@@ -89,18 +91,19 @@ const Question = () => {
     }
 
     setQuestList(questListBox[`ques${step}`]);
-    setPercent(0);
+    
 
     // 질문 세팅 초기화 -> 체크 된거 해제 및 선택 불가 활성화
-    const allElement = document.getElementsByClassName("check-element");
-    for (var i = 0; i < allElement.length; i++) {
-      allElement[i].checked = false;
-      allElement[i].disabled = true;
+    setPercent(0);
+    const allQuestion = document.getElementsByClassName("check-element");
+    for (var i = 0; i < allQuestion.length; i++) {
+      allQuestion[i].checked = false;
+      allQuestion[i].disabled = true;
     }
 
     // 첫 질문은 선택 가능하도록 세팅 및 페이지 제일 위로 이동
-    const firstElement = document.getElementById(`box0`);
-    firstElement.style.opacity = 1;
+    const firstQuestion = document.getElementById(`box0`);
+    firstQuestion.style.opacity = 1;
     window.scrollTo(0, 0);
     document.getElementsByName(`question0`).forEach((it) => it.removeAttribute("disabled"));
   }, [step]);
@@ -108,22 +111,28 @@ const Question = () => {
   useEffect(() => {
     if (finished) {
       const dbtiDetail = {
-        ...dbti,
-        user: user,
-        petName: selectedPet
+        dbtiName: dbti.protoDog + dbti.dependency + dbti.relationship + dbti.activity
+        // ...dbti,
+        // petName: petName
       }
       
+      console.log(dbtiDetail)
+
       const updateDbti = async () => {
-        const response = await fetch(`${domain}/pet/updatedbti`, {
+        const token = localStorage.getItem('token');
+
+        const response = await fetch(`${domain}/pet/${petId}/dbti`, {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify(dbtiDetail)
         })
         if (response.ok) {
-          navigate("/DogMbtiResult", {
-            state: { selectedPet: selectedPet, dbti: dbti }
+          alert('성공')
+          navigate(`/DogMbtiResult?dbtiId=${petId}`, {
+            state: { petName: petName, dbti: dbti }
           });
         } else {
           alert('실패');
@@ -165,9 +174,10 @@ const Question = () => {
         <QuestionBox
           key={index}
           num={index}
-          text={it}
+          text={it[Object.keys(it)[0]]}
           percentIncrease={percentIncrease}
           step={step}
+          QuesType={Object.keys(it)[0]}
         />
       ))}
       <div className="btn-wrapper">

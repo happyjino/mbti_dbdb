@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import TopNavigation from '../components/TopNavigation';
-import { LoginStateContext, PetContext } from '../App';
+import { PetContext } from '../App';
 import { AuthContext } from '../components/AuthContext';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -11,11 +11,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
 const Main = () => {
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
+  const domain = "http://ec2-3-36-140-165.ap-northeast-2.compute.amazonaws.com/api"
   const navigate = useNavigate();
   const { login, loginUpdate } = useContext(AuthContext);
   const { petList, setPetList } = useContext(PetContext);
-  const { user } = useContext(LoginStateContext);
   const [loaded, setLoaded] = useState(false);
   const [dogArr, setDogArr] = useState([]);
 
@@ -45,7 +44,7 @@ const Main = () => {
   const getPet = async () => {
     setLoaded(false);
     const token = localStorage.getItem('token');
-    const response = await fetch(`${domain}/pet/petList`, {
+    const response = await fetch(`${domain}/pet/imageViewList`, {
       method: 'GET',
       headers: {
         // 'Content-Type': 'application/json',
@@ -57,13 +56,20 @@ const Main = () => {
       const result = await response.json();
       const getPetList = result.data.map((pet) => ({
         idx: pet.petId,
-        src: pet.petProfile,
+        name: pet.petName,
+        src: pet.petImageFile,
       }));
       
       setPetList(getPetList);
     } else if (response.status === 400) {
       // alert('강아지 없음');
       setPetList([]);
+    } else if (response.status === 401) {
+      alert("로그인이 만료되었습니다.")
+      console.log(token)
+      localStorage.removeItem('token')
+      loginUpdate()
+      navigate('/')
     } else {
       console.log(response.status);
     }
@@ -80,7 +86,7 @@ const Main = () => {
   useEffect(() => {
     getPet();
     setLoaded(true);
-  }, [user, navigate, loaded]);
+  }, [ navigate, loaded]);
 
   useEffect(() => {
     if (loaded) {
@@ -103,7 +109,7 @@ const Main = () => {
         setDogArr(updatedDogArr);
       }
     }
-  }, [user, petList]);
+  }, [petList]);
   
   return (
     <>

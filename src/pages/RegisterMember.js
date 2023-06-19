@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const RegisterMember = () => {
   const navigate = useNavigate();
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
+  const domain = "http://ec2-3-36-140-165.ap-northeast-2.compute.amazonaws.com/api"
 
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
@@ -167,7 +167,7 @@ const RegisterMember = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (nicknameCheck && emailCheck && pw1Check && pw2Check) {
+    // if (nicknameCheck && emailCheck && pw1Check && pw2Check) {
       fetch(`${domain}/member/signup`, {
         method: 'POST',
         headers: {
@@ -182,9 +182,9 @@ const RegisterMember = () => {
       }).catch(error => {
         console.error(error.message);
       })
-    } else {
-      alert('중복 확인')
-    }
+    // } else {
+    //   alert('중복확인')
+    // }
     
   }
 

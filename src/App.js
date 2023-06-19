@@ -40,20 +40,19 @@ import DogBoast from "./pages/DogBoast";
 import RegisterMember from "./pages/RegisterMember";
 import DogDetail from "./pages/DogDetail";
 import UpdatePassword from "./pages/UpdatePassword";
+import Test from "./pages/test";
 
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 import { AuthProvider } from "./components/AuthContext";
 import EditDogInfo from "./pages/EditDogInfo";
 import AuthKakao from "./pages/AuthKakao";
 
-export const LoginStateContext = createContext();
+
 export const PetContext = createContext();
 
 function App() {
-  
-  const [user, setUser] = useState("");
-  const [memberId, setMemberId] = useState(0);
+
   const [petList, setPetList] = useState([]);
   const [petInfo, setPetInfo] = useState({
     petId: 0,
@@ -63,38 +62,37 @@ function App() {
     petGender: "",
     petNtlz: "",
     petWeight: 0,
-    petProfile: "",
-    petMbti: null   
+    petImageFile: "",
+    petDbti: ""
   });
 
   return (
     <BrowserRouter>
       <div className="App">
-        <LoginStateContext.Provider value={{  }}>
-          <PetContext.Provider value={{ petList, setPetList, petInfo, setPetInfo }}>
-            <AuthProvider >
-              <Routes>
-                <Route path="/login" element={<APILogin />} />
-                <Route path="/auth" element={<AuthKakao />} />
-                <Route path="/loginEmail" element={<EmailLogin />} />
-                <Route path="/forgetPw" element={<ForgetPw />} />
-                <Route path="/question" element={<Question />} />
-                <Route path="/doginfo" element={<DogInfo />} />
-                <Route path="/dogdetail" element={<DogDetail />} />
-                <Route path="/editdoginfo" element={<EditDogInfo />} />
-                <Route path="/main" element={<Main />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/DogMbtiResult" element={<DogMbtiResult />} />
-                <Route path="/DogExplanation" element={<DogExplanation />} />
-                <Route path="/dogpost" element={<DogPost />} />
-                <Route path="/DogBoast" element={<DogBoast />} />
-                <Route path="/register" element={<RegisterMember />} />
-                <Route path="/updatePassword" element={<UpdatePassword />} />
-                <Route path="/DogSelect" element={<DogSelect />} />
-              </Routes>
-            </AuthProvider>
-          </PetContext.Provider>
-        </LoginStateContext.Provider>
+        <PetContext.Provider value={{ petList, setPetList, petInfo, setPetInfo }}>
+          <AuthProvider >
+            <Routes>
+              <Route path="/login" element={<APILogin />} />
+              <Route path="/auth" element={<AuthKakao />} />
+              <Route path="/loginEmail" element={<EmailLogin />} />
+              <Route path="/forgetPw" element={<ForgetPw />} />
+              <Route path="/question" element={<Question />} />
+              <Route path="/doginfo" element={<DogInfo />} />
+              <Route path="/dogdetail" element={<DogDetail />} />
+              <Route path="/editdoginfo" element={<EditDogInfo />} />
+              <Route path="/main" element={<Main />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/DogMbtiResult" element={<DogMbtiResult />} />
+              <Route path="/DogExplanation" element={<DogExplanation />} />
+              <Route path="/dogpost" element={<DogPost />} />
+              <Route path="/DogBoast" element={<DogBoast />} />
+              <Route path="/register" element={<RegisterMember />} />
+              <Route path="/updatePassword" element={<UpdatePassword />} />
+              <Route path="/DogSelect" element={<DogSelect />} />
+              <Route path="/test" element={<Test />} />
+            </Routes>
+          </AuthProvider>
+        </PetContext.Provider>
       </div>
     </BrowserRouter>
     // <BrowserRouter>

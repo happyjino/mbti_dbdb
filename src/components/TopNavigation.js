@@ -9,6 +9,42 @@ const TopNavigation = () => {
   const nickname = localStorage.getItem('nickname');
   const { loginUpdate } = useContext(AuthContext);
 
+  // const logout = async () => {
+
+  //   const token = localStorage.getItem('token');
+  //   console.log(token);
+    
+  //   const response = await fetch(`${domain}/auth/logout`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Authorization': `Bearer ${token}`
+  //     }
+  //   });
+
+  //   if (response.ok) {
+  //     localStorage.removeItem('token');
+  //     loginUpdate();
+  //     navigate('/');
+  //   } else if(response.status === 401) {
+  //     alert('logout 실패')
+  //     alert('토큰 재발급')
+  //     const response2 = await fetch(`${domain}/auth/reissueToken`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     });
+
+  //     if (response2.ok) {
+  //       console.log("재발급 성공");
+  //       console.log(response2.accessToken)
+  //     } else {
+  //       console.log("재발급 실패")
+  //       console.log(response2.status);
+  //     }
+  //   }
+  // }
+
   const logout = () => {
     localStorage.removeItem('token');
     loginUpdate();
@@ -28,7 +64,7 @@ const TopNavigation = () => {
     navigate(-1);
   };
 
-  const domain = "http://ec2-13-209-35-166.ap-northeast-2.compute.amazonaws.com/api"
+  const domain = "http://ec2-3-36-140-165.ap-northeast-2.compute.amazonaws.com/api"
 
   const deleteMember = async () => {
     const token = localStorage.getItem('token');
